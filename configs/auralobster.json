@@ -11,8 +11,8 @@
       "INC_PTR_OP": "어",
       "DEC_PTR_OP": "라",
       "INC_VAL_OP": "랍",
-      "DEC_VAL_OP": "타",
       "PRINT_OP": "스",
+      "DEC_VAL_OP": "타",
       "STORE_OP": "?",
       "LOOP_BEGIN_OP": "~",
       "LOOP_END_OP": "!"
