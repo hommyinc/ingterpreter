@@ -1,0 +1,26 @@
+{
+  "TITLE": "auralobster",
+  "EXT": "auralob",
+
+  "COMMANDS": {
+    "ACTIVATION": {
+      "START": "뭐야 방금 아버지 식사하시는데 콩자반 안 집어 지셔서",
+      "END": "라고 하셨어"
+    },
+    "OPERATION": {
+      "INC_PTR_OP": "어",
+      "DEC_PTR_OP": "라",
+      "INC_VAL_OP": "랍",
+      "PRINT_OP": "스",
+      "DEC_VAL_OP": "타",
+      "STORE_OP": "?",
+      "LOOP_BEGIN_OP": "~",
+      "LOOP_END_OP": "!"
+    }
+  },
+
+  "METADATA": {
+    "AUTHOR": "클렌지잉폼",
+    "DATE": "2023/05/09"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "TITLE": "ingtepreter",
+  "EXT": "ing",
+
+  "COMMANDS": {
+    "ACTIVATION": {
+        "START": "말이 너무 심해..",
+        "END": "캠 키우고 해라"
+    },
+    "OPERATION": {
+      "INC_PTR_OP": "예민하네 화났네",
+      "DEC_PTR_OP": "장난인데 왜 그래",
+      "INC_VAL_OP": "진지하게 받지마",
+      "DEC_VAL_OP": "이 사람 좀 논란 있을듯 ㄷㄷ",
+      "PRINT_OP": "안 미안하네",
+      "STORE_OP": "니 취팔러마",
+      "LOOP_BEGIN_OP": "~",
+      "LOOP_END_OP": "ㅗ"
+    }
+  },
+
+  "METADATA": {
+    "AUTHOR": "클렌지잉폼",
+    "DATE": "2023/05/09"
+  }
+}
