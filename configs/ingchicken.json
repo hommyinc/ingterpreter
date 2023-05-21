@@ -1,0 +1,22 @@
+{
+  "TITLE": "ingchicken",
+  "EXT": "ingc",
+  "ENCODING": "utf-8",
+
+  "COMMANDS": {
+    "ACTIVATION": {
+      "START": "ㄱㄴ?",
+      "END": "^^7"
+    },
+    "OPERATION": {
+      "INC_PTR_OP": "우",
+      "DEC_PTR_OP": "정",
+      "INC_VAL_OP": "잉",
+      "DEC_VAL_OP": "치",
+      "STORE_OP": "킨",
+      "PRINT_OP": "뭣",
+      "LOOP_BEGIN_OP": "극",
+      "LOOP_END_OP": "락"
+    }
+  }
+}
