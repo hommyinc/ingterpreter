@@ -1,4 +1,8 @@
-import msvcrt
+import platform
+if "windows" in platform.system().lower():
+    import msvcrt as getchlib
+else:
+    import getch as getchlib
 from typing import Dict
 
 
@@ -117,7 +121,7 @@ class IngterpreterEngine:
         print(chr(self.memory[self.pointer]), end='')
 
     def store_value(self):
-        self.memory[self.pointer] = ord(msvcrt.getch())
+        self.memory[self.pointer] = ord(getchlib.getch())
 
     def jump(self, command):
         if command == self.loop_begin_op and self.memory[self.pointer] == 0:
