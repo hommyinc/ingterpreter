@@ -72,7 +72,7 @@ def register_ingterpreter_alias(lang_name:str):
 
     # 쉘 명령어 alias 등록
     with open(profile_file, 'a') as f:
-        f.write(f"\nalias {lang_name}='python engine.py {lang_name}'\n")
+        f.write(f"\nalias {lang_name}='python runner.py {lang_name}'\n")
 
 
 def remove_ingterpreter_alias(lang_name:str):
@@ -98,7 +98,7 @@ def remove_ingterpreter_alias(lang_name:str):
             if f"alias {lang_name}" not in line:
                 f.write(line)
             else:
-                print(f"deleted '{line}' from `{profile_file}`.")
+                print(f"deleted '{line.strip()}' from `{profile_file}`.")
 
 
 if __name__ == "__main__":
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         assert args.command in __ALLOWED_COMMANDS
     except:
         raise AssertionError("error: a valid command is required\n\t"
-            f"`<LANG_NAME> <COMMAND> <...>`, where `<COMMAND>` is one of {__ALLOWED_COMMANDS}"
+            f"`<LANG_NAME> <COMMAND> <...>`, where `<COMMAND>` is one of {__ALLOWED_COMMANDS} "
             f"or `python runner.py <COMMAND> <LANG_NAME> <...>`, where `<COMMAND>` is one of {__ALLOWED_COMMANDS}")
     
     # 삭제
@@ -151,11 +151,62 @@ if __name__ == "__main__":
             # alias를 시스템에 등록
             register_ingterpreter_alias(args.lang_name)
             print(f"your Ingterpreter-based language \"{args.lang_name}\" is registered!")
+            print("please re-run your environment.")
 
         # 코드 변환
         elif args.command == "convert":
             ING = IngterpreterEngine(CFG)
+            try:
+                convert_mode = args.arguments.pop(0)
+                assert convert_mode in ("b2i", "i2b")
+            except:
+                raise AttributeError("error: a valid command is required\n\t"
+                    f"`{args.lang_name} convert <MODE> <IN_FNAME> <OUT_FNAME>` "
+                    f"or `python runner.py convert {args.lang_name} <MODE> <IN_FNAME> <OUT_FNAME>`, "
+                    "where `<MODE>` is one of either 'b2i' or 'i2b'")
+            
+            try:
+                in_file_name, out_file_name = args.arguments
+                assert os.path.isfile(in_file_name)
+            except:
+                raise AttributeError("error: a valid command is required\n\t"
+                    f"`{args.lang_name} convert <MODE> <IN_FNAME> <OUT_FNAME>` "
+                    f"or `python runner.py convert {args.lang_name} <MODE> <IN_FNAME> <OUT_FNAME>`, "
+                    "where `<IN_FNAME>` is the name of input script file "
+                    "and `<OUT_FNAME>` is the name of output script file.")
+
+            if convert_mode == "b2i":
+                # 확장자 체크 후 문제 있는 경우 경고 메세지 출력
+                IN_EXT, OUT_EXT = in_file_name.split('.')[-1], out_file_name.split('.')[-1]
+                if IN_EXT not in ("b", "bf"):
+                    print(f"warning: the name of input Brainfuck script file ends with an unknown extension of {IN_EXT}")
+                if OUT_EXT != CFG["EXT"]:
+                    print(f"warning: the name of output Ingterpreter script file ends with an unknown extension of {OUT_EXT}")
+                ING.convert_b2i(in_file_name, out_file_name) # Brainfuck -> Ingterpreter
+            else: # if convert_mode == "i2b":
+                # 확장자 체크 후 문제 있는 경우 경고 메세지 출력
+                IN_EXT, OUT_EXT = in_file_name.split('.')[-1], out_file_name.split('.')[-1]
+                if IN_EXT != CFG["EXT"]:
+                    print(f"warning: the name of input Ingterpreter script file ends with an unknown extension of {IN_EXT}")
+                if OUT_EXT not in ("b", "bf"):
+                    print(f"warning: the name of output Brainfuck script file ends with an unknown extension of {OUT_EXT}")
+                ING.convert_i2b(in_file_name, out_file_name) # Ingterpreter -> Brainfuck
 
         # 코드 실행
         else: # if args.command == "run":
             ING = IngterpreterEngine(CFG)
+            try:
+                file_name = args.arguments.pop(0)
+                assert os.path.isfile(file_name)
+            except:
+                raise AttributeError("error: a valid command is required\n\t"
+                f"`{args.lang_name} run <SCRIPT_FNAME>` "
+                f"or `python runner.py run {args.lang_name} <SCRIPT_FNAME>`, "
+                "where `<SCRIPT_FNAME>` is the name of the Ingterpreter script file to run.")
+
+            # 확장자 체크 후 문제 있는 경우 경고 메세지 출력
+            SCRIPT_EXT = file_name.split('.')[-1]
+            if SCRIPT_EXT != CFG["EXT"]:
+                print(f"warning: the name of Ingterpreter script file ends with an unknown extension of {SCRIPT_EXT}")
+            ING.initialize(file_name)
+            ING.run()
